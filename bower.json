@@ -1,6 +1,6 @@
 {
-  "name": "practica2-element",
-  "main": "practica2-element.html",
+  "name": "cards-component",
+  "main": "cards-component.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
     "paper-card": "PolymerElements/paper-card#2.1.0",

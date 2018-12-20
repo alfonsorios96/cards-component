@@ -4,7 +4,7 @@
 <link rel="import" href="../paper-card/paper-card.html">
 <link rel="import" href="../paper-button/paper-button.html">
 
-<dom-module id="practica2-element">
+<dom-module id="cards-component">
   <template>
     <style>
       paper-card {
@@ -13,9 +13,11 @@
           height: 200px;
         }
       }
+
       .off {
         background: #d2d2d2;
       }
+
       .container {
         display: flex;
         justify-content: space-around;
@@ -30,7 +32,7 @@
     </style>
     <h2>Hay [[size]] usuarios conectados.</h2>
     <div class="container">
-      <dom-repeat items="[[users]]" as="user">
+      <dom-repeat items="[[users]]" as="user" id="repeat">
         <template>
           <paper-card image="[[user.image]]" class$="card [[user.status]]">
             <div class="card-content">
@@ -61,12 +63,16 @@
      * @demo demo/index.html
      */
     class CardsComponent extends Polymer.Element {
-      static get is() { return 'cards-component'; }
+      static get is() {
+        return 'cards-component';
+      }
+
       static get properties() {
         return {
           users: {
             type: Array,
-            value: []
+            value: [],
+            observer: '_usersChanged'
           },
           size: {
             type: Number,
@@ -74,9 +80,16 @@
           }
         };
       }
-      _getUsersListSize(users){
+
+      _getUsersListSize(users) {
         return users.filter(user => user.status === 'on').length;
       }
+
+      _usersChanged() {
+        const users = this.users;
+        this.$.repeat.items = users;
+      }
+
       show(event) {
         this.dispatchEvent(new CustomEvent('user-selected', {
           bubbles: false,
